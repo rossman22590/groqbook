@@ -284,7 +284,7 @@ if 'statistics_text' not in st.session_state:
 
 
 st.write("""
-# Groqbook: Write full books using llama3 (8b and 70b) on Groq
+# Bookify: Write full books using AI Tutor!
 """)
 
 def disable():
