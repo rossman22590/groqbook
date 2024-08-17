@@ -1,13 +1,19 @@
 # Use an official Python runtime as a parent image
 FROM python:3.11-slim
 
-# Install system dependencies for WeasyPrint
+# Install system dependencies for WeasyPrint and GTK
 RUN apt-get update && apt-get install -y \
     libgdk-pixbuf2.0-0 \
     libpangocairo-1.0-0 \
     libpangoft2-1.0-0 \
     libcairo2 \
     libffi-dev \
+    libgirepository1.0-dev \
+    libcairo2-dev \
+    pkg-config \
+    python3-gi \
+    gir1.2-pango-1.0 \
+    gir1.2-gtk-3.0 \
     shared-mime-info \
     && rm -rf /var/lib/apt/lists/*
 
@@ -22,12 +28,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the current directory contents into the container at /app
 COPY . /app
-
-# Ensure the .env file is present in the container
-COPY .env /app/.env
-
-# Set the Groq API key as an environment variable (if not already in .env)
-ENV GROQ_API_KEY=${GROQ_API_KEY}
 
 # Expose the port on which the Streamlit app will run
 EXPOSE 8501
