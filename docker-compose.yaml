@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  infinite-bookshelf:
+    build: .
+    container_name: infinite-bookshelf
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}  # Pass the Groq API key directly as an environment variable
+    ports:
+      - "8501:8501"  # Maps the container's port 8501 to the host's port 8501
+    volumes:
+      - .:/app  # Mounts the current directory into the container
+    command: >
+      python3 -m streamlit run main.py
+      --server.port=8501
+      --server.address=0.0.0.0
