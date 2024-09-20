@@ -41,7 +41,7 @@ ensure_states(states)
 # 3: Define Streamlit page structure and functionality
 st.write(
     """
-# Infinite Bookshelf: Write full books using llama3 (8b and 70b) on Groq
+# Bookify Advanced: Write full books using the power of AI Tutor - in advanced mode
 """
 )
 
