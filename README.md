@@ -1,4 +1,4 @@
-<h2 align="center">
+<h2 align="center"> 
   <br>
   <img src="https://i.imgur.com/TCUC9Ic.png" alt="Infinite Bookshelf Logo" width="200">
  <br>
