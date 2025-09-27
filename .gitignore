@@ -1,2 +1,5 @@
 .env
 venv
+/infinite_bookshelf/agents/__pycache__
+/infinite_bookshelf/tools/__pycache__
+/infinite_bookshelf/ui/__pycache__
