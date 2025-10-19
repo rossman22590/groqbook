@@ -16,72 +16,7 @@ from infinite_bookshelf.ui.components import (
 )
 from infinite_bookshelf.ui import Book, load_return_env, ensure_states
 
-# Include custom CSS
-st.markdown("""
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-        .main {
-            max-width: 800px;
-            margin: auto;
-            padding: 2rem;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .btn-primary {
-            background-color: #007bff;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-        .card {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        .header {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-        .subheader {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        .input, .textarea, .select, .file-upload {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-    </style>
-""", unsafe_allow_html=True)
+
 
 # Initialize env variables and session states
 GROQ_API_KEY = load_return_env(["GROQ_API_KEY"])["GROQ_API_KEY"]
@@ -100,10 +35,9 @@ if GROQ_API_KEY:
 ensure_states(states)
 
 # Define Streamlit page structure and functionality
-st.markdown("""
-    <div class="main">
-        <h1 class="header">Bookify Advanced: Write full books using the power of AI Tutor - in advanced mode</h1>
-""", unsafe_allow_html=True)
+st.write("""
+# Bookify Advanced: Write full books using the power of AI Tutor - in advanced mode
+""")
 
 def disable():
     st.session_state.button_disabled = True
@@ -189,7 +123,7 @@ try:
             groq_provider=st.session_state.groq,
         )
 
-        st.markdown(f"<h2 class='subheader'>{st.session_state.book_title}</h2>", unsafe_allow_html=True)
+        st.write(f"## {st.session_state.book_title}")
 
         total_generation_statistics = GenerationStatistics(
             model_name=section_agent_model
@@ -251,37 +185,3 @@ except Exception as e:
 
     if st.button("Clear"):
         st.rerun()
-
-st.markdown("</div>", unsafe_allow_html=True)
-
-# Update render_advanced_groq_form to use custom CSS classes
-def render_advanced_groq_form(on_submit, button_disabled, button_text):
-    with st.form(key='advanced_groq_form'):
-        groq_input_key = st.text_input("GROQ API Key", type="password", placeholder="Enter your GROQ API Key", help="Your GROQ API Key for accessing the API", key="groq_input_key", disabled=button_disabled, css_classes="input")
-        topic_text = st.text_area("Book Topic", placeholder="Enter the topic of the book", help="The main topic of the book", key="topic_text", disabled=button_disabled, css_classes="textarea")
-        additional_instructions = st.text_area("Additional Instructions", placeholder="Enter any additional instructions", help="Any additional instructions for the book generation", key="additional_instructions", disabled=button_disabled, css_classes="textarea")
-        writing_style = st.selectbox("Writing Style", ["Formal", "Informal", "Technical", "Narrative"], help="Choose a writing style", key="writing_style", disabled=button_disabled, css_classes="select")
-        complexity_level = st.selectbox("Complexity Level", ["Beginner", "Intermediate", "Advanced"], help="Choose the complexity level", key="complexity_level", disabled=button_disabled, css_classes="select")
-        seed_content = st.text_area("Seed Content", placeholder="Enter any seed content", help="Any seed content to guide the book generation", key="seed_content", disabled=button_disabled, css_classes="textarea")
-        uploaded_file = st.file_uploader("Upload Seed Content File", type=["txt"], help="Upload a text file with seed content", key="uploaded_file", disabled=button_disabled, css_classes="file-upload")
-        title_agent_model = st.selectbox("Title Agent Model", ["default", "advanced"], help="Choose the model for generating the book title", key="title_agent_model", disabled=button_disabled, css_classes="select")
-        structure_agent_model = st.selectbox("Structure Agent Model", ["default", "advanced"], help="Choose the model for generating the book structure", key="structure_agent_model", disabled=button_disabled, css_classes="select")
-        section_agent_model = st.selectbox("Section Agent Model", ["default", "advanced"], help="Choose the model for generating the book sections", key="section_agent_model", disabled=button_disabled, css_classes="select")
-
-        submitted = st.form_submit_button(label=button_text, on_click=on_submit, disabled=button_disabled, css_classes="btn-primary")
-
-    return submitted, groq_input_key, topic_text, additional_instructions, writing_style, complexity_level, seed_content, uploaded_file, title_agent_model, structure_agent_model, section_agent_model
-
-# Update display_statistics to use custom CSS classes
-def display_statistics(placeholder, statistics_text):
-    with placeholder.container():
-        st.markdown(f"<div class='card'><p>{statistics_text}</p></div>", unsafe_allow_html=True)
-
-# Update render_download_buttons to use custom CSS classes
-def render_download_buttons(book):
-    st.markdown("""
-        <div style="display: flex; gap: 10px;">
-            <button class="btn-primary" onclick="create_markdown_file(book)">Download Markdown</button>
-            <button class="btn-secondary" onclick="create_pdf_file(book)">Download PDF</button>
-        </div>
-    """, unsafe_allow_html=True)
