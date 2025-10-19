@@ -49,8 +49,9 @@ def empty_st():
     st.empty()
 
 try:
-    if st.button("End Generation and Download Book", key="end_download", disabled=st.session_state.button_disabled, on_click=enable):
-        if "book" in st.session_state:
+    # Show download button if book exists - enabled during generation to allow early download
+    if "book" in st.session_state:
+        if st.button("End Generation and Download Book", key="end_download"):
             render_download_buttons(st.session_state.get("book"))
 
     (
@@ -175,6 +176,9 @@ try:
                         stream_section_content(content)
 
             stream_section_content(book_structure_json)
+            
+            # Re-enable buttons after generation completes
+            st.session_state.button_disabled = False
 
         except json.JSONDecodeError:
             st.error("Failed to decode the book structure. Please try again.")
